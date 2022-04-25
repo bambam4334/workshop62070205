@@ -1,7 +1,6 @@
 const express = require('express')
 const app = express()
 const port = 3002
-//my port
 
 const { PrometheusExporter } = require('@opentelemetry/exporter-prometheus');
 const { MeterProvider }  = require('@opentelemetry/sdk-metrics-base');
@@ -11,7 +10,6 @@ const options = {port: 9464, startServer: true};
 const exporter = new PrometheusExporter(options);
 
 // Register the exporter
-// ทุกๆวิจะ collect ข้อมูล
 const meter = new MeterProvider({
   exporter,
   interval: 1000,
@@ -26,9 +24,7 @@ const counter = meter.createCounter('count_movies', {
 app.get('/movies', async function (req, res) {
 
   counter.add(1, { service_name: "service_3" });
-  counter.add(1, { service_name: "service_3", status:"success" });
-  counter.add(1, { service_name: "service_3", status: "failure" });
-  counter.add(1, { service_name: "service_3" ,status: "data not found"});
+
   res.type('json')
   var delay = Math.floor( ( Math.random() * 2000 ) + 100);
 
